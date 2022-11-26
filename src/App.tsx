@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import { CommonPanel } from "./CommonPanel";
-import { NumberPanel, NumberType, NUMBER_TYPE } from "./NumberPanel";
-import { OperatorPanel, OperatorType, OPERATOR_TYPE } from "./OperatorPanel";
+import { Panel } from "./Panel";
+import { NumberType, NUMBER_TYPE } from "./types/NumberType";
+import { OperatorType, OPERATOR_TYPE } from "./types/OperatorType";
 
-const appendNumber = (sbj: string | undefined, obj: string): string => {
+const appendNumber = (sbj: string | undefined, obj: NumberType): string => {
   sbj = sbj ?? "";
 
   switch (obj) {
@@ -50,11 +50,11 @@ const calculate = (n1: number, op: OperatorType, n2: number): number => {
   }
 };
 
-export const App: FC = () => {
-  const [n1, setN1] = useState("0");
+export const App = () => {
+  const [n1, setN1] = useState<string>("0");
   const [n2, setN2] = useState<string | undefined>();
   const [operator, setOperator] = useState<OperatorType | undefined>();
-  const [display, setDisplay] = useState("0");
+  const [display, setDisplay] = useState<string>("0");
 
   const numberPanelClickHandler = (n: NumberType) => {
     if (operator) {
@@ -110,29 +110,33 @@ export const App: FC = () => {
     <div className="App">
       <div className="display">{display}</div>
       <div className="number">
-        <NumberPanel n="7" onClickHandler={numberPanelClickHandler} />
-        <NumberPanel n="8" onClickHandler={numberPanelClickHandler} />
-        <NumberPanel n="9" onClickHandler={numberPanelClickHandler} />
-        <NumberPanel n="4" onClickHandler={numberPanelClickHandler} />
-        <NumberPanel n="5" onClickHandler={numberPanelClickHandler} />
-        <NumberPanel n="6" onClickHandler={numberPanelClickHandler} />
-        <NumberPanel n="1" onClickHandler={numberPanelClickHandler} />
-        <NumberPanel n="2" onClickHandler={numberPanelClickHandler} />
-        <NumberPanel n="3" onClickHandler={numberPanelClickHandler} />
-        <NumberPanel className="zero" n="0" onClickHandler={numberPanelClickHandler} />
-        <NumberPanel n="." onClickHandler={numberPanelClickHandler} />
+        <Panel<NumberType> sym={NUMBER_TYPE.SEVEN} onClickHandler={numberPanelClickHandler} />
+        <Panel<NumberType> sym={NUMBER_TYPE.EIGHT} onClickHandler={numberPanelClickHandler} />
+        <Panel<NumberType> sym={NUMBER_TYPE.NINE} onClickHandler={numberPanelClickHandler} />
+        <Panel<NumberType> sym={NUMBER_TYPE.FOUR} onClickHandler={numberPanelClickHandler} />
+        <Panel<NumberType> sym={NUMBER_TYPE.FIVE} onClickHandler={numberPanelClickHandler} />
+        <Panel<NumberType> sym={NUMBER_TYPE.SIX} onClickHandler={numberPanelClickHandler} />
+        <Panel<NumberType> sym={NUMBER_TYPE.ONE} onClickHandler={numberPanelClickHandler} />
+        <Panel<NumberType> sym={NUMBER_TYPE.TWO} onClickHandler={numberPanelClickHandler} />
+        <Panel<NumberType> sym={NUMBER_TYPE.THREE} onClickHandler={numberPanelClickHandler} />
+        <Panel<NumberType>
+          className="zero"
+          sym={NUMBER_TYPE.ZERO}
+          onClickHandler={numberPanelClickHandler}
+        />
+        <Panel<NumberType> sym={NUMBER_TYPE.DOT} onClickHandler={numberPanelClickHandler} />
       </div>
       <div className="operator">
-        <OperatorPanel op="÷" onClickHandler={operatorPanelClickHanlder} />
-        <OperatorPanel op="×" onClickHandler={operatorPanelClickHanlder} />
-        <OperatorPanel op="-" onClickHandler={operatorPanelClickHanlder} />
-        <OperatorPanel op="+" onClickHandler={operatorPanelClickHanlder} />
-        <CommonPanel onClickHandler={equalPanelClickHanlder}>=</CommonPanel>
+        <Panel<OperatorType> sym="÷" onClickHandler={operatorPanelClickHanlder} />
+        <Panel<OperatorType> sym="×" onClickHandler={operatorPanelClickHanlder} />
+        <Panel<OperatorType> sym="-" onClickHandler={operatorPanelClickHanlder} />
+        <Panel<OperatorType> sym="+" onClickHandler={operatorPanelClickHanlder} />
+        <Panel<OperatorType> sym="=" onClickHandler={equalPanelClickHanlder} />
       </div>
       <div className="command">
-        <CommonPanel onClickHandler={allClearPanelHandler}>AC</CommonPanel>
-        <CommonPanel onClickHandler={inversePanelHanlder}>+/-</CommonPanel>
-        <CommonPanel onClickHandler={percentPanelHandler}>%</CommonPanel>
+        <Panel sym="AC" onClickHandler={allClearPanelHandler} />
+        <Panel sym="+/-" onClickHandler={inversePanelHanlder} />
+        <Panel sym="%" onClickHandler={percentPanelHandler} />
       </div>
     </div>
   );
